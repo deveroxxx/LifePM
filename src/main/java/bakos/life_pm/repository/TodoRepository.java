@@ -1,8 +1,10 @@
 package bakos.life_pm.repository;
 
 import bakos.life_pm.entity.Todo;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.ListCrudRepository;
 
-public interface TodoRepository extends CrudRepository<Todo, Integer> {
+import java.util.UUID;
+
+public interface TodoRepository extends ListCrudRepository<Todo, UUID> {
 
 }
