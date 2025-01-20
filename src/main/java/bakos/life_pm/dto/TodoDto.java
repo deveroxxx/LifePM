@@ -26,5 +26,5 @@ public class TodoDto implements Serializable {
     TodoType todoType;
     boolean archived;
     List<TodoTagDto> todoTags;
-    BoardColumnDto boardColumn;
+    Integer position;
 }

@@ -2,7 +2,7 @@ package bakos.life_pm;
 
 
 import bakos.life_pm.entity.Board;
-import bakos.life_pm.service.CoreService;
+import bakos.life_pm.service.BoardService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -16,13 +16,13 @@ public class DatabaseInsertTest {
 
 
     @Autowired
-    private CoreService coreService;
+    private BoardService boardService;
 
     @Test
     public void test() {
-        Board board = coreService.createBoard("TestBoard", "Test Board Description");
+        Board board = boardService.createBoard("TestBoard");
         log.info(String.valueOf(board.getId()));
-        coreService.getBoard(board.getId());
+        boardService.getBoard(board.getId());
         log.info("Success :)");
     }
 

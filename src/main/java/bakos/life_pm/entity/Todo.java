@@ -47,6 +47,9 @@ public class Todo extends BaseEntity {
     @JoinColumn(name = "board_column_id", nullable = false)
     private BoardColumn boardColumn;
 
+    @Column(nullable = false)
+    private Integer position;
+
     @ManyToMany
     @JoinTable(
             name = "todo_parents",

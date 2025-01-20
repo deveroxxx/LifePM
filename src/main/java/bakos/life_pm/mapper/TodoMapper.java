@@ -5,7 +5,7 @@ import bakos.life_pm.entity.Todo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {BoardColumnMapper.class, TagMapper.class})
+@Mapper(uses = {TagMapper.class})
 public interface TodoMapper extends BaseMapper<Todo, TodoDto>{
     TodoMapper INSTANCE = Mappers.getMapper(TodoMapper.class);
 }

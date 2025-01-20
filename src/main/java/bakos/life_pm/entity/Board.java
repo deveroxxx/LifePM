@@ -16,10 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Board extends Timestamped {
 
-    public Board(String name, String description) {
+    public Board(String name) {
         this.name = name;
-        this.description = description;
-        this.archived = false;
     }
 
     @NotBlank
@@ -34,4 +32,7 @@ public class Board extends Timestamped {
 
     @Column(nullable = false)
     private boolean archived = false;
+
+    @Column(nullable = false)
+    private Integer position;
 }

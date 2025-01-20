@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -18,4 +19,5 @@ public class BoardColumnDto implements Serializable {
     @NotBlank
     String name;
     Integer position;
+    List<TodoDto> todos;
 }
