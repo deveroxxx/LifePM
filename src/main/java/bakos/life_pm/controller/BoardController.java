@@ -28,7 +28,7 @@ public class BoardController {
         return boardService.listBoards().stream().map(BoardMapper.INSTANCE::toDto).toList();
     }
 
-    @PutMapping("/api/board/")
+    @PostMapping("/api/board/")
     public BoardDto createBoard(@RequestBody String name) {
         return BoardMapper.INSTANCE.toDto(boardService.createBoard(name));
     }

@@ -1,16 +1,16 @@
 package bakos.life_pm.controller;
 
 import bakos.life_pm.dto.BoardColumnDto;
+import bakos.life_pm.dto.request.UpdateOrderRequest;
 import bakos.life_pm.mapper.BoardColumnMapper;
 import bakos.life_pm.service.BoardColumnService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@RestController
 public class BoardColumnController {
 
     private final BoardColumnService boardColumnService;
@@ -30,9 +30,18 @@ public class BoardColumnController {
         return boardColumnService.listColumns().stream().map(BoardColumnMapper.INSTANCE::toDto).toList();
     }
 
-    @PutMapping("/api/board-column/")
+    @PostMapping("/api/board-column/create")
     public BoardColumnDto createColumn(@RequestBody String name, @RequestBody UUID boardId) {
         return BoardColumnMapper.INSTANCE.toDto(boardColumnService.createColumn(name, boardId));
+    }
+
+    @PutMapping("/api/board-column/update-position")
+    public ResponseEntity<Void> updatePosition(@RequestBody UpdateOrderRequest request) {
+        boardColumnService.updateColumnPosition(
+                request.getMovedItemId(),
+                request.getPreviousItemId(),
+                request.getNextItemId());
+        return ResponseEntity.ok().build();
     }
 
 
