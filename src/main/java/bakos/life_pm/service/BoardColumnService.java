@@ -63,5 +63,7 @@ public class BoardColumnService {
         }
     }
 
-
+    public void deleteColumn(UUID id) {
+        columnRepo.deleteById(id);
+    }
 }

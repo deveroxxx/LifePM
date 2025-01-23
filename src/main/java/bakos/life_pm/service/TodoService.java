@@ -43,6 +43,10 @@ public class TodoService {
         return todoRepo.save(todo);
     }
 
+    public void deleteTodo(UUID id) {
+        todoRepo.deleteById(id);
+    }
+
     public Todo getTodo(UUID id) {
         return todoRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Todo with id " + id + " not found"));

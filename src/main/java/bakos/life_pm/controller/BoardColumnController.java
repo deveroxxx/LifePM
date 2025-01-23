@@ -1,6 +1,7 @@
 package bakos.life_pm.controller;
 
 import bakos.life_pm.dto.BoardColumnDto;
+import bakos.life_pm.dto.request.CreateBoardColumnRequest;
 import bakos.life_pm.dto.request.UpdateOrderRequest;
 import bakos.life_pm.mapper.BoardColumnMapper;
 import bakos.life_pm.service.BoardColumnService;
@@ -31,8 +32,8 @@ public class BoardColumnController {
     }
 
     @PostMapping("/api/board-column/create")
-    public BoardColumnDto createColumn(@RequestBody String name, @RequestBody UUID boardId) {
-        return BoardColumnMapper.INSTANCE.toDto(boardColumnService.createColumn(name, boardId));
+    public BoardColumnDto createColumn(@RequestBody CreateBoardColumnRequest request) {
+        return BoardColumnMapper.INSTANCE.toDto(boardColumnService.createColumn(request.getName(), request.getBoardId()));
     }
 
     @PutMapping("/api/board-column/update-position")
@@ -43,6 +44,13 @@ public class BoardColumnController {
                 request.getNextItemId());
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/api/board-column/delete/{id}")
+    public ResponseEntity<Void> deleteColumn(@PathVariable(name = "id") UUID id) {
+        boardColumnService.deleteColumn(id);
+        return ResponseEntity.ok().build();
+    }
+
 
 
 
