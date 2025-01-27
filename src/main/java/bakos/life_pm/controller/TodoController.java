@@ -12,6 +12,7 @@ import java.util.UUID;
 
 
 @RestController
+@RequestMapping("/api/todo")
 public class TodoController {
 
     private final TodoService todoService;
@@ -21,7 +22,7 @@ public class TodoController {
     }
 
 
-    @PutMapping("/api/todo/update-position")
+    @PutMapping("/update-position")
     public ResponseEntity<Void> updatePosition(@RequestBody UpdateTodoOrderRequest request) {
         todoService.updateTodoPosition(
                 request.getMovedItemId(),
@@ -31,12 +32,12 @@ public class TodoController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/api/todo/create")
+    @PostMapping("/create")
     public TodoDto createColumn(@RequestBody CreateTodoRequest request) {
         return TodoMapper.INSTANCE.toDto(todoService.createTodo(request.getName(), request.getColumnId()));
     }
 
-    @DeleteMapping("/api/todo/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> createColumn(@PathVariable(name = "id") UUID id) {
         todoService.deleteTodo(id);
         return ResponseEntity.ok().build();

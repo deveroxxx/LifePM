@@ -20,4 +20,14 @@ public class User extends Timestamped {
     @Column(name = "last_name")
     @NotBlank
     private String lastName;
+
+    @Column(name = "user_name")
+    @NotBlank
+    private String userName;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
 }

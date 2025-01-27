@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/api/board-column")
 public class BoardColumnController {
 
     private final BoardColumnService boardColumnService;
@@ -21,22 +22,22 @@ public class BoardColumnController {
     }
 
 
-    @GetMapping("/api/board-column/{columnId}")
+    @GetMapping("/{columnId}")
     public BoardColumnDto getColumn(@PathVariable(name = "columnId") UUID id) {
         return BoardColumnMapper.INSTANCE.toDto(boardColumnService.getColumn(id));
     }
 
-    @GetMapping("/api/board-column/all")
+    @GetMapping("/all")
     public List<BoardColumnDto> getAllColumn() {
         return boardColumnService.listColumns().stream().map(BoardColumnMapper.INSTANCE::toDto).toList();
     }
 
-    @PostMapping("/api/board-column/create")
+    @PostMapping("/create")
     public BoardColumnDto createColumn(@RequestBody CreateBoardColumnRequest request) {
         return BoardColumnMapper.INSTANCE.toDto(boardColumnService.createColumn(request.getName(), request.getBoardId()));
     }
 
-    @PutMapping("/api/board-column/update-position")
+    @PutMapping("/update-position")
     public ResponseEntity<Void> updatePosition(@RequestBody UpdateOrderRequest request) {
         boardColumnService.updateColumnPosition(
                 request.getMovedItemId(),
@@ -45,7 +46,7 @@ public class BoardColumnController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/api/board-column/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteColumn(@PathVariable(name = "id") UUID id) {
         boardColumnService.deleteColumn(id);
         return ResponseEntity.ok().build();

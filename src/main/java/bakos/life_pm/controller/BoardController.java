@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/api/board")
 public class BoardController {
 
     private final BoardService boardService;
@@ -18,17 +19,17 @@ public class BoardController {
     }
 
 
-    @GetMapping("/api/board/{boardId}")
+    @GetMapping("/{boardId}")
     public BoardDto getBoard(@PathVariable(name = "boardId", required = false) UUID id) {
         return BoardMapper.INSTANCE.toDto(boardService.getBoard(id));
     }
 
-    @GetMapping("/api/board/all")
+    @GetMapping("/all")
     public List<BoardDto> getAllBoard() {
         return boardService.listBoards().stream().map(BoardMapper.INSTANCE::toDto).toList();
     }
 
-    @PostMapping("/api/board/")
+    @PostMapping("/create")
     public BoardDto createBoard(@RequestBody String name) {
         return BoardMapper.INSTANCE.toDto(boardService.createBoard(name));
     }
