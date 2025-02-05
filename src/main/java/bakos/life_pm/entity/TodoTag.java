@@ -1,9 +1,6 @@
 package bakos.life_pm.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "tags")
-public class TodoTag extends BaseEntity {
+public class TodoTag extends CustomerOwnedEntity {
 
     @NotBlank
     @Column(nullable = false, unique = true)

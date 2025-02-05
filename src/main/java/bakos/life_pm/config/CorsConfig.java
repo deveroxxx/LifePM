@@ -15,9 +15,10 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("*") // Fixme: security issue
+                        .allowedOrigins("http://localhost:4200") // Fixme: security issue
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*"); // Allow all headers
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }

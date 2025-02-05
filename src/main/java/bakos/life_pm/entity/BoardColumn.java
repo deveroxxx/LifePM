@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "board_columns")
-public class BoardColumn extends Timestamped {
+public class BoardColumn extends TimestampedEntity {
 
     @NotBlank
     @Column(nullable = false)
@@ -27,4 +27,12 @@ public class BoardColumn extends Timestamped {
 
     @Column(nullable = false)
     private Integer position;
+
+    @Transient
+    private String userName;
+
+    @PostLoad
+    private void initUserName() {
+        this.userName = this.getBoard().getUserName();
+    }
 }

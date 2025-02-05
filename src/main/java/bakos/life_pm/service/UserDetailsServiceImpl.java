@@ -1,5 +1,6 @@
 package bakos.life_pm.service;
 
+import bakos.life_pm.entity.Customer;
 import bakos.life_pm.repository.UserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        bakos.life_pm.entity.User user = userRepository.findByUserNameOrThrow(username);
-        return new User(user.getUserName(), user.getPassword(), Collections.emptyList());
+        try {
+            Customer user = userRepository.findByUserNameOrThrow(username);
+            return new User(user.getUserName(), user.getPassword(), Collections.emptyList());
+        } catch (Exception e) {
+            throw new UsernameNotFoundException(e.getMessage());
+        }
     }
+
+
+
 }

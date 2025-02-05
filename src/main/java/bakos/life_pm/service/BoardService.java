@@ -18,28 +18,23 @@ public class BoardService {
 
     public BoardService(BoardRepository boardRepo) {
         this.boardRepo = boardRepo;
-
     }
 
     public Board createBoard(String name) {
         Board board = new Board(name);
+        board.setUserName(Utils.getUserFromSecurityContext());
         board.setPosition(boardRepo.findMaxBoardPosition() + SPARSE_POSITION_GAP);
         board = this.boardRepo.save(board);
         return board;
     }
 
     public Board getBoard(UUID id) {
-        return boardRepo.findById(id)
+        return boardRepo.findByIdAndUserName(id, Utils.getUserFromSecurityContext())
                 .orElseThrow(() -> new EntityNotFoundException("Board with id " + id + " not found"));
     }
 
     public List<Board> listBoards() {
-        return boardRepo.findAll();
+        return boardRepo.findByUserName(Utils.getUserFromSecurityContext());
     }
-
-
-
-
-
 
 }

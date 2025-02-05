@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "todos")
-public class Todo extends BaseEntity {
+public class Todo extends TimestampedEntity {
 
     @NotBlank
     @Column(nullable = false)
@@ -57,6 +57,14 @@ public class Todo extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "parent_id")
     )
     private List<Todo> parents = new ArrayList<>();
+
+    @Transient
+    private String userName;
+
+    @PostLoad
+    private void initUserName() {
+        this.userName = boardColumn.getBoard().getUserName();
+    }
 
     public void addParent(Todo todo) {
         this.parents.add(todo);

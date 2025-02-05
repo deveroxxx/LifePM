@@ -1,6 +1,6 @@
 package bakos.life_pm.service;
 
-import bakos.life_pm.entity.User;
+import bakos.life_pm.entity.Customer;
 import bakos.life_pm.exception.BusinessLogicRtException;
 import bakos.life_pm.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +17,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User createUser(String userName, String password, String email) {
+    public Customer createUser(String userName, String password, String email) {
         if (userRepository.existsByUserName(userName)) {
             throw new BusinessLogicRtException("User already exists with name: " + userName);
         }
@@ -25,7 +25,7 @@ public class UserService {
             throw new BusinessLogicRtException("User already exists with email: " + email);
         }
 
-        User user = new User();
+        Customer user = new Customer();
         user.setUserName(userName);
         user.setPassword(passwordEncoder.encode(password));
         user.setEmail(email);

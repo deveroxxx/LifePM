@@ -1,5 +1,7 @@
 package bakos.life_pm.config;
 
+import bakos.life_pm.dto.ErrorResponse;
+import bakos.life_pm.exception.BusinessLogicRtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
         log.error("Exception occurred: {}, Request Details: {}", ex.getMessage(), request.getDescription(false), ex);
         return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(BusinessLogicRtException.class)
+    public ResponseEntity<ErrorResponse> handleBusinessLogicRtExceptions(BusinessLogicRtException ex, WebRequest request) {
+        log.error("Exception occurred: {}, Request Details: {}", ex.getMessage(), request.getDescription(false), ex);
+        ErrorResponse errorResponse = new ErrorResponse(null, ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

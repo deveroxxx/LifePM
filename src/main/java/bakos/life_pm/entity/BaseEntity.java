@@ -13,12 +13,12 @@ import java.util.UUID;
 @Setter
 @Getter
 @MappedSuperclass
-public class BaseEntity implements Serializable {
+public abstract class BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue
     @Column(columnDefinition = "UUID")
-    private UUID id;
+    protected UUID id;
 
 
 }

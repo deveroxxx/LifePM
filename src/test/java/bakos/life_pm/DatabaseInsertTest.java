@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @Slf4j
 @SpringBootTest
+//@WithMockUser(username = "a@a.com")
 public class DatabaseInsertTest {
 
 

@@ -1,11 +1,11 @@
 package bakos.life_pm.service;
 
-import bakos.life_pm.entity.Board;
 import bakos.life_pm.entity.BoardColumn;
 import bakos.life_pm.exception.PositionOverflowException;
 import bakos.life_pm.repository.BoardColumnRepository;
-import jakarta.persistence.EntityManager;
+import bakos.life_pm.repository.BoardRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,12 +17,11 @@ import static bakos.life_pm.constant.Constants.SPARSE_POSITION_GAP;
 public class BoardColumnService {
 
     private final BoardColumnRepository columnRepo;
-    private final EntityManager entityManager;
+    private final BoardRepository boardRepo;
 
-
-    public BoardColumnService(BoardColumnRepository columnRepo, EntityManager entityManager) {
+    public BoardColumnService(BoardColumnRepository columnRepo, BoardRepository boardRepo) {
         this.columnRepo = columnRepo;
-        this.entityManager = entityManager;
+        this.boardRepo = boardRepo;
     }
 
     public BoardColumn getColumn(UUID id) {
@@ -37,7 +36,7 @@ public class BoardColumnService {
         BoardColumn column = new BoardColumn();
         column.setName(name);
         column.setPosition(columnRepo.findMaxPositionInBoard(boardId) + SPARSE_POSITION_GAP);
-        column.setBoard(entityManager.getReference(Board.class, boardId));
+        column.setBoard(boardRepo.findByIdAndUserNameOrThrow(boardId, Utils.getUserFromSecurityContext()));
         column = this.columnRepo.save(column);
         return column;
     }
@@ -52,6 +51,14 @@ public class BoardColumnService {
             movedColumn.setPosition(newPosition);
         } catch (PositionOverflowException e) {
             recreateAllColumnPositionInBoard(movedColumn);
+        }
+    }
+
+    public void validateColumnOwner(UUID id) {
+        if (id != null) {
+            if (!getColumn(id).getUserName().equals(Utils.getUserFromSecurityContext())) {
+                throw new BadCredentialsException("");
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 package bakos.life_pm.config;
 
 
-import bakos.life_pm.filter.JwtAuthFilter;
+import bakos.life_pm.auth.JwtAuthFilter;
 import bakos.life_pm.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +39,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for stateless APIs
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/signup", "/auth/login", "/auth/generateToken").permitAll()
+                        .requestMatchers("/auth/signup", "/auth/login", "/auth/refresh-token").permitAll()
                         .anyRequest().authenticated() // Protect all other endpoints
                 )
                 .sessionManagement(sess -> sess
@@ -47,7 +47,6 @@ public class SecurityConfig {
                 )
                 .authenticationProvider(authenticationProvider()) // Custom authentication provider
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 
