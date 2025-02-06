@@ -5,7 +5,6 @@ import bakos.life_pm.exception.PositionOverflowException;
 import bakos.life_pm.repository.BoardColumnRepository;
 import bakos.life_pm.repository.BoardRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,14 +53,6 @@ public class BoardColumnService {
         }
     }
 
-    public void validateColumnOwner(UUID id) {
-        if (id != null) {
-            if (!getColumn(id).getUserName().equals(Utils.getUserFromSecurityContext())) {
-                throw new BadCredentialsException("");
-            }
-        }
-    }
-
     private static void recreateAllColumnPositionInBoard(BoardColumn movedColumn) {
         int position = SPARSE_POSITION_GAP;
         for (BoardColumn column : movedColumn.getBoard().getColumns()) {
@@ -70,6 +61,7 @@ public class BoardColumnService {
         }
     }
 
+    @Transactional
     public void deleteColumn(UUID id) {
         columnRepo.deleteById(id);
     }

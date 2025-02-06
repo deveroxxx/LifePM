@@ -4,6 +4,7 @@ package bakos.life_pm.service;
 import bakos.life_pm.entity.Board;
 import bakos.life_pm.repository.BoardRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,12 +21,20 @@ public class BoardService {
         this.boardRepo = boardRepo;
     }
 
+    @Transactional
     public Board createBoard(String name) {
         Board board = new Board(name);
         board.setUserName(Utils.getUserFromSecurityContext());
         board.setPosition(boardRepo.findMaxBoardPosition() + SPARSE_POSITION_GAP);
         board = this.boardRepo.save(board);
         return board;
+    }
+
+
+    @Transactional
+    public void deleteBoard(UUID id) {
+        getBoard(id);
+        boardRepo.deleteById(id);
     }
 
     public Board getBoard(UUID id) {

@@ -2,9 +2,12 @@ package bakos.life_pm.controller;
 
 import bakos.life_pm.dto.BoardColumnDto;
 import bakos.life_pm.dto.request.CreateBoardColumnRequest;
-import bakos.life_pm.dto.request.UpdateOrderRequest;
+import bakos.life_pm.dto.request.UpdateColumnOrderRequest;
+import bakos.life_pm.entity.BoardColumn;
 import bakos.life_pm.mapper.BoardColumnMapper;
 import bakos.life_pm.service.BoardColumnService;
+import bakos.life_pm.validators.ValidOwner;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +26,7 @@ public class BoardColumnController {
 
 
     @GetMapping("/{columnId}")
-    public BoardColumnDto getColumn(@PathVariable(name = "columnId") UUID id) {
+    public BoardColumnDto getColumn(@Valid @ValidOwner(entity = BoardColumn.class) @PathVariable(name = "columnId") UUID id) {
         return BoardColumnMapper.INSTANCE.toDto(boardColumnService.getColumn(id));
     }
 
@@ -33,12 +36,12 @@ public class BoardColumnController {
     }
 
     @PostMapping("/create")
-    public BoardColumnDto createColumn(@RequestBody CreateBoardColumnRequest request) {
+    public BoardColumnDto createColumn(@Valid @RequestBody CreateBoardColumnRequest request) {
         return BoardColumnMapper.INSTANCE.toDto(boardColumnService.createColumn(request.getName(), request.getBoardId()));
     }
 
     @PutMapping("/update-position")
-    public ResponseEntity<Void> updatePosition(@RequestBody UpdateOrderRequest request) {
+    public ResponseEntity<Void> updatePosition(@Valid @RequestBody UpdateColumnOrderRequest request) {
         boardColumnService.updateColumnPosition(
                 request.getMovedItemId(),
                 request.getPreviousItemId(),
@@ -47,7 +50,7 @@ public class BoardColumnController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteColumn(@PathVariable(name = "id") UUID id) {
+    public ResponseEntity<Void> deleteColumn(@Valid @ValidOwner(entity = BoardColumn.class) @PathVariable(name = "id") UUID id) {
         boardColumnService.deleteColumn(id);
         return ResponseEntity.ok().build();
     }
