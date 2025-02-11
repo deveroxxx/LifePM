@@ -52,13 +52,13 @@ public class Utils {
         return null;
     }
 
-    public static void setCookie(HttpServletResponse response, String name, String value) {
+    public static void setCookie(HttpServletResponse response, String name, String value, long maxAge) {
         Cookie cookie = new Cookie(name, value);
         cookie.setHttpOnly(true);
         cookie.setSecure(false); //FIXME: either set localhost https or remove this in prod
         //cookie.setAttribute("SameSite", "None");
         cookie.setPath("/");
-        cookie.setMaxAge(15 * 60);
+        cookie.setMaxAge((int) maxAge);
         response.addCookie(cookie);
     }
 

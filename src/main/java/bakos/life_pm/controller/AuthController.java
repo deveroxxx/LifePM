@@ -39,6 +39,10 @@ public class AuthController {
     @Value("${security.jwt.access-token-expiration-sec}")
     private long accessTokenExpirationSec;
 
+    @Value("${security.jwt.refresh-token-expiration-sec}")
+    private long refreshTokenExpirationSec;
+
+
 
     public AuthController(JwtService jwtService, AuthService authService, UserService userService) {
         this.jwtService = jwtService;
@@ -62,8 +66,8 @@ public class AuthController {
 
             authService.storeRefreshToken(authenticatedUser.getUserName(), refreshToken);
 
-            setCookie(response, AUTH_COOKIE_NAME, accessToken);
-            setCookie(response, REFRESH_COOKIE_NAME, refreshToken);
+            setCookie(response, AUTH_COOKIE_NAME, accessToken, accessTokenExpirationSec);
+            setCookie(response, REFRESH_COOKIE_NAME, refreshToken, refreshTokenExpirationSec);
 
             LoginResponse loginResponse = new LoginResponse(null, accessToken, accessTokenExpirationSec);
             return ResponseEntity.ok(loginResponse);
@@ -113,7 +117,7 @@ public class AuthController {
 
         if (storedToken.isPresent()) {
             String newAccessToken = jwtService.generateToken(storedToken.get().getUserName());
-            setCookie(response, AUTH_COOKIE_NAME, newAccessToken);
+            setCookie(response, AUTH_COOKIE_NAME, newAccessToken, accessTokenExpirationSec);
             return ResponseEntity.ok(new LoginResponse(null, newAccessToken, accessTokenExpirationSec));
         }
 
