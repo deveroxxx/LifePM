@@ -1,4 +1,4 @@
-package bakos.life_pm.dto;
+package bakos.life_pm.dto.response;
 
 import bakos.life_pm.enums.Priority;
 import bakos.life_pm.enums.TodoType;

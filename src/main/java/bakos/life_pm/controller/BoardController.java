@@ -1,6 +1,6 @@
 package bakos.life_pm.controller;
 
-import bakos.life_pm.dto.BoardDto;
+import bakos.life_pm.dto.response.BoardDto;
 import bakos.life_pm.dto.request.CreateBoardRequest;
 import bakos.life_pm.entity.Board;
 import bakos.life_pm.mapper.BoardMapper;

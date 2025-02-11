@@ -1,6 +1,6 @@
 package bakos.life_pm.config;
 
-import bakos.life_pm.dto.ErrorResponse;
+import bakos.life_pm.dto.response.ErrorResponse;
 import bakos.life_pm.exception.BusinessLogicRtException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;

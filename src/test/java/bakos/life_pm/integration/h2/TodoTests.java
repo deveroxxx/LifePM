@@ -1,7 +1,7 @@
 package bakos.life_pm.integration.h2;
 
 import bakos.life_pm.TestUtils;
-import bakos.life_pm.dto.BoardDto;
+import bakos.life_pm.dto.response.BoardDto;
 import bakos.life_pm.entity.Board;
 import bakos.life_pm.entity.BoardColumn;
 import bakos.life_pm.entity.Todo;

@@ -1,6 +1,6 @@
 package bakos.life_pm.mapper;
 
-import bakos.life_pm.dto.BoardDto;
+import bakos.life_pm.dto.response.BoardDto;
 import bakos.life_pm.entity.Board;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

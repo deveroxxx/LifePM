@@ -1,6 +1,6 @@
 package bakos.life_pm.controller;
 
-import bakos.life_pm.dto.BoardColumnDto;
+import bakos.life_pm.dto.response.BoardColumnDto;
 import bakos.life_pm.dto.request.CreateBoardColumnRequest;
 import bakos.life_pm.dto.request.UpdateColumnOrderRequest;
 import bakos.life_pm.entity.BoardColumn;

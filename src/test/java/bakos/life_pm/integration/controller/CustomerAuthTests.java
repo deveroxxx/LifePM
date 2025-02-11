@@ -1,7 +1,7 @@
 package bakos.life_pm.integration.controller;
 
 
-import bakos.life_pm.dto.LoginResponse;
+import bakos.life_pm.dto.response.LoginResponse;
 import bakos.life_pm.dto.request.AuthRequest;
 import bakos.life_pm.repository.UserRepository;
 import bakos.life_pm.service.UserService;

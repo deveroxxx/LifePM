@@ -1,6 +1,6 @@
 package bakos.life_pm.controller;
 
-import bakos.life_pm.dto.TodoDto;
+import bakos.life_pm.dto.response.TodoDto;
 import bakos.life_pm.dto.request.CreateTodoRequest;
 import bakos.life_pm.dto.request.UpdateTodoOrderRequest;
 import bakos.life_pm.entity.Todo;
