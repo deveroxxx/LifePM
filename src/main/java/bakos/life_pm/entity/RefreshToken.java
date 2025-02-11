@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity(name = "refresh_tokens")
-public class RefreshToken extends CustomerOwnedEntity {
+public class RefreshToken extends WithUserName {
 
     private String token;
 

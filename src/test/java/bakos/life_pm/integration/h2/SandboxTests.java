@@ -38,7 +38,6 @@ public class SandboxTests extends TestUtils implements H2BaseTest {
         BoardColumn column = boardColumnService.createColumn("New Column ", board.getId());
         Todo todo = todoService.createTodo("New Todo ", column.getId());
         todo = todoRepository.findById(todo.getId()).get();
-        log.info("User id: " + todo.getUserName());
     }
 
 

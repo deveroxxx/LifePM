@@ -1,8 +1,8 @@
 package bakos.life_pm.controller;
 
-import bakos.life_pm.dto.response.TodoDto;
 import bakos.life_pm.dto.request.CreateTodoRequest;
 import bakos.life_pm.dto.request.UpdateTodoOrderRequest;
+import bakos.life_pm.dto.response.TodoDto;
 import bakos.life_pm.entity.Todo;
 import bakos.life_pm.mapper.TodoMapper;
 import bakos.life_pm.service.TodoService;
@@ -44,6 +44,11 @@ public class TodoController {
     public ResponseEntity<Void> deleteTodo(@Valid @ValidOwner(entity = Todo.class) @PathVariable(name = "id") UUID id) {
         todoService.deleteTodo(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{todoId}")
+    public TodoDto getTodo(@PathVariable(name = "todoId") UUID id) {
+        return TodoMapper.INSTANCE.toDto(todoService.getTodo(id));
     }
 
 

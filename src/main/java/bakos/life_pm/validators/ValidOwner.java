@@ -1,5 +1,6 @@
 package bakos.life_pm.validators;
 
+import bakos.life_pm.entity.CustomerRelated;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -12,7 +13,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidOwner {
-    Class<?> entity();
+    Class<? extends CustomerRelated> entity();
     String message() default "Unauthorized modification attempt.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

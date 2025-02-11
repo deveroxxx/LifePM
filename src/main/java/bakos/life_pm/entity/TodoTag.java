@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "tags")
-public class TodoTag extends CustomerOwnedEntity {
+public class TodoTag extends WithUserName {
 
     @NotBlank
     @Column(nullable = false, unique = true)

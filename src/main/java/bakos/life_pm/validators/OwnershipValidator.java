@@ -1,7 +1,7 @@
 package bakos.life_pm.validators;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import bakos.life_pm.entity.CustomerRelated;
+import bakos.life_pm.service.UserNameResolver;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,10 +12,12 @@ import java.util.UUID;
 @Component
 public class OwnershipValidator implements ConstraintValidator<ValidOwner, UUID> {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final UserNameResolver userNameResolver;
+    private Class<? extends CustomerRelated> entityClass;
 
-    private Class<?> entityClass;
+    public OwnershipValidator(UserNameResolver userNameResolver) {
+        this.userNameResolver = userNameResolver;
+    }
 
     @Override
     public void initialize(ValidOwner constraintAnnotation) {
@@ -26,14 +28,12 @@ public class OwnershipValidator implements ConstraintValidator<ValidOwner, UUID>
     public boolean isValid(UUID id, ConstraintValidatorContext context) {
         if (id == null) return true;
 
-        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        Object entity = entityManager.find(entityClass, id);
-
-        if (entity == null) {
+        String owner = userNameResolver.getUserName(id, entityClass);
+        if (owner == null) {
             return buildValidationMessage(context, "Resource does not exists!");
         }
 
-        String owner = getUserNameFromEntity(entity);
+        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         if (!currentUser.equals(owner)) {
             return buildValidationMessage(context, "You do not have permission to modify this resource!");
         }
@@ -45,13 +45,5 @@ public class OwnershipValidator implements ConstraintValidator<ValidOwner, UUID>
         context.disableDefaultConstraintViolation();
         context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
         return false;
-    }
-
-    private String getUserNameFromEntity(Object entity) {
-        try {
-            return (String) entity.getClass().getMethod("getUserName").invoke(entity);
-        } catch (Exception e) {
-            throw new IllegalStateException("Entity must have a getUserName() method", e);
-        }
     }
 }

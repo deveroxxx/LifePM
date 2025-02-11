@@ -15,4 +15,10 @@ public interface TodoRepository extends ListCrudRepository<Todo, UUID> {
             "WHERE c.id = :columnId")
     Integer findMaxPositionInColumn(@Param("columnId") UUID columnId);
 
+    @Query("SELECT b.userName FROM Todo t " +
+            "JOIN t.boardColumn bc " +
+            "JOIN bc.board b " +
+            "WHERE t.id = :todoId")
+    String findUserNameByTodoId(@Param("todoId") UUID todoId);
+
 }
