@@ -15,7 +15,7 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping("/api/todo")
+@RequestMapping("/api/todos")
 public class TodoController {
 
     private final TodoService todoService;
@@ -24,8 +24,33 @@ public class TodoController {
         this.todoService = todoService;
     }
 
+    @PostMapping()
+    public TodoDto createTodo(@Valid @RequestBody CreateTodoRequest request) {
+        return TodoMapper.INSTANCE.toDto(todoService.createTodo(request.getName(), request.getColumnId()));
+    }
 
-    @PutMapping("/update-position")
+    @GetMapping()
+    public TodoDto getTodos() {
+        throw new UnsupportedOperationException();
+    }
+
+    @GetMapping("/{todoId}")
+    public TodoDto getTodo(@PathVariable(name = "todoId") UUID id) {
+        return TodoMapper.INSTANCE.toDto(todoService.getTodo(id));
+    }
+
+    @PatchMapping("/{todoId}")
+    public TodoDto updateTodo(@PathVariable(name = "todoId") UUID id) {
+        throw new UnsupportedOperationException();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTodo(@Valid @ValidOwner(entity = Todo.class) @PathVariable(name = "id") UUID id) {
+        todoService.deleteTodo(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{todoId}/reorder")
     public ResponseEntity<Void> updatePosition(@Valid @RequestBody UpdateTodoOrderRequest request) {
         todoService.updateTodoPosition(
                 request.getMovedItemId(),
@@ -35,21 +60,21 @@ public class TodoController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/create")
-    public TodoDto createTodo(@Valid @RequestBody CreateTodoRequest request) {
-        return TodoMapper.INSTANCE.toDto(todoService.createTodo(request.getName(), request.getColumnId()));
+    @PostMapping("/{todoId}/image")
+    public TodoDto uploadImage(@Valid @ValidOwner(entity = Todo.class) @PathVariable(name = "todoId") UUID id) {
+        throw new UnsupportedOperationException();
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteTodo(@Valid @ValidOwner(entity = Todo.class) @PathVariable(name = "id") UUID id) {
-        todoService.deleteTodo(id);
-        return ResponseEntity.ok().build();
+    @PostMapping("/{todoId}/file")
+    public TodoDto uploadFile(@Valid @ValidOwner(entity = Todo.class) @PathVariable(name = "todoId") UUID id) {
+        throw new UnsupportedOperationException();
     }
 
-    @GetMapping("/{todoId}")
-    public TodoDto getTodo(@PathVariable(name = "todoId") UUID id) {
-        return TodoMapper.INSTANCE.toDto(todoService.getTodo(id));
-    }
+
+
+
+
+
 
 
 }

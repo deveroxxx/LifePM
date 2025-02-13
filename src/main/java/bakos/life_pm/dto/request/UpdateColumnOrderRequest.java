@@ -9,8 +9,6 @@ import java.util.UUID;
 @Data
 public class UpdateColumnOrderRequest {
     @ValidOwner(entity = BoardColumn.class)
-    private UUID movedItemId;
-    @ValidOwner(entity = BoardColumn.class)
     private UUID previousItemId;
     @ValidOwner(entity = BoardColumn.class)
     private UUID nextItemId;

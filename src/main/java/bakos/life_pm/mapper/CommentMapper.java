@@ -5,7 +5,7 @@ import bakos.life_pm.entity.Comment;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface CommentMapper extends BaseMapper<Comment, CommentDto>{
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 }

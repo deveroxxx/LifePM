@@ -70,6 +70,18 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(UnsupportedOperationException.class)
+    public ResponseEntity<ErrorResponse> handleUnsupportedOperationException(UnsupportedOperationException ex, WebRequest request) {
+        log.error("Exception occurred: {}, Request Details: {}", "Unsupported operation (Ask BE to implement this method)", request.getDescription(false));
+        ErrorResponse errorResponse = new ErrorResponse(null, "Unsupported operation (Ask BE to implement this method)");
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+
+
+
+
+
 
 
 
