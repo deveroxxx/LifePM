@@ -1,5 +1,6 @@
 package bakos.life_pm.service;
 
+import bakos.life_pm.dto.request.PatchTodoRequest;
 import bakos.life_pm.entity.BoardColumn;
 import bakos.life_pm.entity.Todo;
 import bakos.life_pm.enums.Priority;
@@ -30,6 +31,16 @@ public class TodoService {
         this.columnRepository = columnRepository;
     }
 
+    @Transactional
+    public void patchTodo(UUID todoId, PatchTodoRequest request) {
+        Todo todo = getTodo(todoId);
+        if (request.getTitle() != null && !request.getTitle().isBlank()) {
+            todo.setTitle(request.getTitle());
+        }
+        if (request.getDescription() != null) {
+            todo.setDescription(request.getDescription().isBlank() ? null : request.getDescription());
+        }
+    }
 
 
     public Todo createTodo(String title, UUID columnId) {

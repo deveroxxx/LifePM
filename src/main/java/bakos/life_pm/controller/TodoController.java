@@ -1,6 +1,7 @@
 package bakos.life_pm.controller;
 
 import bakos.life_pm.dto.request.CreateTodoRequest;
+import bakos.life_pm.dto.request.PatchTodoRequest;
 import bakos.life_pm.dto.request.UpdateTodoOrderRequest;
 import bakos.life_pm.dto.response.TodoDto;
 import bakos.life_pm.entity.Todo;
@@ -40,8 +41,10 @@ public class TodoController {
     }
 
     @PatchMapping("/{todoId}")
-    public TodoDto updateTodo(@PathVariable(name = "todoId") UUID id) {
-        throw new UnsupportedOperationException();
+    public ResponseEntity<Void> updateTodo(@Valid @ValidOwner(entity = Todo.class) @PathVariable(name = "todoId") UUID id,
+                              @RequestBody PatchTodoRequest request) {
+        todoService.patchTodo(id, request);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
@@ -51,9 +54,10 @@ public class TodoController {
     }
 
     @PutMapping("/{todoId}/reorder")
-    public ResponseEntity<Void> updatePosition(@Valid @RequestBody UpdateTodoOrderRequest request) {
+    public ResponseEntity<Void> updatePosition(@Valid @ValidOwner(entity = Todo.class) @PathVariable(name = "todoId") UUID id,
+                                               @Valid @RequestBody UpdateTodoOrderRequest request) {
         todoService.updateTodoPosition(
-                request.getMovedItemId(),
+                id,
                 request.getPreviousItemId(),
                 request.getNextItemId(),
                 request.getNewColumnId());
