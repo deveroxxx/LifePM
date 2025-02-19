@@ -5,7 +5,7 @@ import bakos.life_pm.dto.request.CreateBoardRequest;
 import bakos.life_pm.entity.Board;
 import bakos.life_pm.mapper.BoardMapper;
 import bakos.life_pm.service.BoardService;
-import bakos.life_pm.validators.ValidOwner;
+import bakos.life_pm.validators.ValidEditor;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +44,7 @@ public class BoardController {
     }
 
     @DeleteMapping("/{boardId}")
-    public ResponseEntity<Void> deleteBoard(@Valid @ValidOwner(entity = Board.class) @PathVariable(name = "boardId") UUID id) {
+    public ResponseEntity<Void> deleteBoard(@Valid @ValidEditor(entity = Board.class) @PathVariable(name = "boardId") UUID id) {
         boardService.deleteBoard(id);
         return ResponseEntity.ok().build();
     }

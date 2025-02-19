@@ -1,6 +1,5 @@
 package bakos.life_pm.entity;
 
-import bakos.life_pm.enums.EntityType;
 import bakos.life_pm.enums.StorageStrategy;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,8 +23,7 @@ public class FileAttachment extends TimestampedEntity implements CustomerRelated
     @Column
     private String filePath;
 
-    @Lob
-    @Column
+    @Column(columnDefinition = "BYTEA")
     private byte[] fileData;
 
     @Column(nullable = false)
@@ -33,10 +31,6 @@ public class FileAttachment extends TimestampedEntity implements CustomerRelated
 
     @Column(nullable = false)
     private UUID parentId;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private EntityType parentType;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

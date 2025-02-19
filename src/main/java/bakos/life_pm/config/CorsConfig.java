@@ -21,7 +21,7 @@ public class CorsConfig {
                                 "http://192.168.0.234:8081",
                                 "http://192.168.0.157:4200",
                                 "http://192.168.0.157:8081") // Fixme: security issue
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
             }

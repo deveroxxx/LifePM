@@ -6,9 +6,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.InputStream;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
+import static bakos.life_pm.enums.StorageStrategy.DATABASE;
 
 @Component
 public class FileAttachmentDbStrategy implements StorageStrategy {
@@ -19,29 +20,23 @@ public class FileAttachmentDbStrategy implements StorageStrategy {
         this.fileAttachmentRepository = fileAttachmentRepository;
     }
 
-    private FileAttachment saveFileInDatabase(MultipartFile file, UUID parentId) {
+    @Override
+    public FileAttachment saveFile(MultipartFile file, UUID parentId) {
         try {
             FileAttachment fileAttachment = new FileAttachment();
+            fileAttachment.setStorageStrategy(DATABASE);
             fileAttachment.setFileType(file.getContentType());
             fileAttachment.setFileName(file.getOriginalFilename());
             fileAttachment.setFileData(file.getBytes());
             fileAttachment.setParentId(parentId);
-            return fileAttachment;
+            return fileAttachmentRepository.save(fileAttachment);
         } catch (IOException e) {
             throw new RuntimeException("Could not save file", e);
         }
     }
 
     @Override
-    public List<FileAttachment> saveAllFiles(List<MultipartFile> files,  UUID parentId) {
-        if (files == null || files.isEmpty()) {
-            return List.of();
-        }
-
-        List<FileAttachment> fileAttachments = files.stream()
-                .map(file -> saveFileInDatabase(file, parentId))
-                .collect(Collectors.toList());
-
-        return fileAttachmentRepository.saveAll(fileAttachments);
+    public InputStream downloadFile(FileAttachment file) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

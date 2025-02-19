@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class OwnershipValidator implements ConstraintValidator<ValidOwner, UUID> {
+public class OwnershipValidator implements ConstraintValidator<ValidEditor, UUID> {
 
     private final UserNameResolver userNameResolver;
     private Class<? extends CustomerRelated> entityClass;
@@ -20,7 +20,7 @@ public class OwnershipValidator implements ConstraintValidator<ValidOwner, UUID>
     }
 
     @Override
-    public void initialize(ValidOwner constraintAnnotation) {
+    public void initialize(ValidEditor constraintAnnotation) {
         this.entityClass = constraintAnnotation.entity();
     }
 

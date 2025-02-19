@@ -1,7 +1,6 @@
 package bakos.life_pm.service;
 
 import bakos.life_pm.entity.Comment;
-import bakos.life_pm.enums.EntityType;
 import bakos.life_pm.repository.CommentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -19,11 +18,9 @@ public class CommentService {
     }
 
     @Transactional
-    public Comment addComment(UUID parentId, EntityType parentType, String content) {
-        // FIXME: user ownership validation
+    public Comment addComment(UUID parentId, String content) {
         Comment comment = new Comment();
         comment.setParentId(parentId);
-        comment.setParentType(parentType);
         comment.setContent(content);
         comment.setUserName(Utils.getUserFromSecurityContext());
         return commentRepository.save(comment);

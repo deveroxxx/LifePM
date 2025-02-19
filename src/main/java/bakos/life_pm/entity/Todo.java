@@ -21,6 +21,7 @@ public class Todo extends TimestampedEntity implements CustomerRelated {
     @Column(nullable = false)
     private String title;
 
+    //TODO: increase length
     @Column
     private String description;
 

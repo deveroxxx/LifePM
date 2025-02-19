@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = OwnershipValidator.class)
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidOwner {
+public @interface ValidEditor {
     Class<? extends CustomerRelated> entity();
     String message() default "Unauthorized modification attempt.";
     Class<?>[] groups() default {};

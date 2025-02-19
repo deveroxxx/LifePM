@@ -8,15 +8,17 @@ import lombok.Getter;
 
 @Getter
 public enum EntityType {
-    TODO(Todo.class),
-    BOARD_COLUMN(BoardColumn.class),
-    BOARD(Board.class),
-    COMMENT(Comment.class);
+    TODO(Todo.class, "todo"),
+    BOARD_COLUMN(BoardColumn.class, "boardColumn"),
+    BOARD(Board.class, "board"),
+    COMMENT(Comment.class, "comment"),;
 
     private final Class<?> entityClass;
+    private final String path;
 
-    EntityType(Class<?> entityClass) {
+    EntityType(Class<?> entityClass, String path) {
         this.entityClass = entityClass;
+        this.path = path;
     }
 
 }

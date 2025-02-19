@@ -1,7 +1,7 @@
 package bakos.life_pm.dto.request;
 
 import bakos.life_pm.entity.Board;
-import bakos.life_pm.validators.ValidOwner;
+import bakos.life_pm.validators.ValidEditor;
 import lombok.Data;
 
 import java.util.UUID;
@@ -9,6 +9,6 @@ import java.util.UUID;
 @Data
 public class CreateBoardColumnRequest {
     String name;
-    @ValidOwner(entity = Board.class)
+    @ValidEditor(entity = Board.class)
     UUID boardId;
 }

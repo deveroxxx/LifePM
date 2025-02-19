@@ -9,16 +9,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
+import static bakos.life_pm.enums.StorageStrategy.FILE;
 
 @Component
-public class FileAttachmentFileSystemStrategy implements StorageStrategy{
+public class FileAttachmentFileSystemStrategy implements StorageStrategy {
 
     private final FileAttachmentRepository fileAttachmentRepository;
 
@@ -29,7 +29,8 @@ public class FileAttachmentFileSystemStrategy implements StorageStrategy{
         this.fileAttachmentRepository = fileAttachmentRepository;
     }
 
-    private FileAttachment saveFileOnDisk(MultipartFile file, UUID parentId) {
+    @Override
+    public FileAttachment saveFile(MultipartFile file, UUID parentId) {
         try {
             Path uploadPath = getUserFilePath();
             if (!Files.exists(uploadPath)) {
@@ -41,27 +42,20 @@ public class FileAttachmentFileSystemStrategy implements StorageStrategy{
             Files.copy(file.getInputStream(), filePath);
 
             FileAttachment fileAttachment = new FileAttachment();
+            fileAttachment.setStorageStrategy(FILE);
             fileAttachment.setFileType(file.getContentType());
             fileAttachment.setFileName(file.getOriginalFilename());
             fileAttachment.setFilePath(filePath.toString());
             fileAttachment.setParentId(parentId);
-            return fileAttachment;
+            return fileAttachmentRepository.save(fileAttachment);
         } catch (IOException e) {
             throw new RuntimeException("Could not save file", e);
         }
     }
 
-
     @Override
-    public List<FileAttachment> saveAllFiles(List<MultipartFile> files, UUID parentId) {
-        if (files == null || files.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        List<FileAttachment> fileAttachments = files.stream()
-                .map(file -> saveFileOnDisk(file, parentId))
-                .collect(Collectors.toList());
-        return fileAttachmentRepository.saveAll(fileAttachments);
+    public InputStream downloadFile(FileAttachment file) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public Path getUserFilePath() {

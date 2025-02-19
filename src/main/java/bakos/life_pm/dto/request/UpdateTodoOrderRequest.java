@@ -2,20 +2,20 @@ package bakos.life_pm.dto.request;
 
 import bakos.life_pm.entity.BoardColumn;
 import bakos.life_pm.entity.Todo;
-import bakos.life_pm.validators.ValidOwner;
+import bakos.life_pm.validators.ValidEditor;
 import lombok.Data;
 
 import java.util.UUID;
 
 @Data
 public class UpdateTodoOrderRequest {
-    @ValidOwner(entity = Todo.class)
+    @ValidEditor(entity = Todo.class)
     private UUID movedItemId;
-    @ValidOwner(entity = Todo.class)
+    @ValidEditor(entity = Todo.class)
     private UUID previousItemId;
-    @ValidOwner(entity = Todo.class)
+    @ValidEditor(entity = Todo.class)
     private UUID nextItemId;
-    @ValidOwner(entity = BoardColumn.class)
+    @ValidEditor(entity = BoardColumn.class)
     private UUID newColumnId;
 }
 
