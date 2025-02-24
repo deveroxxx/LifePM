@@ -83,7 +83,7 @@ public class CustomerAuthTests {
 
     @Test
     public void shouldNotAllowAccessToUnauthenticatedUsers() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/api/board/all")).andExpect(status().isForbidden());
+        mvc.perform(MockMvcRequestBuilders.get("/api/boards")).andExpect(status().isForbidden());
     }
 
     @Test
@@ -92,7 +92,7 @@ public class CustomerAuthTests {
         LoginResponse loginResponse = mapper.readValue(contentAsString, LoginResponse.class);
 
         mvc.perform(MockMvcRequestBuilders
-                .get("/api/board/all")
+                .get("/api/boards")
                 .header("Authorization", "Bearer " + loginResponse.getToken()))
         .andExpect(status().isOk());
     }

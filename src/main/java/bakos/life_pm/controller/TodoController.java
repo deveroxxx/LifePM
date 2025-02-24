@@ -16,7 +16,6 @@ import bakos.life_pm.service.CommentService;
 import bakos.life_pm.service.FileAttachmentService;
 import bakos.life_pm.service.TodoService;
 import bakos.life_pm.validators.ValidEditor;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -132,10 +131,19 @@ public class TodoController {
         return commentService.getComments(todoId).stream().map(CommentMapper.INSTANCE::toDto).toList();
     }
 
-    @Operation(summary = "Unimplemented!!!!")
-    @PostMapping("/{todoId}/comments/{commentId}")
-    public TodoDto editComment(@Valid @ValidEditor(entity = Todo.class) @PathVariable(name = "todoId") UUID todoId) {
-        throw new UnsupportedOperationException();
+    @DeleteMapping("/{todoId}/comments/{commentId}")
+    public ResponseEntity<Void> deleteComment(@Valid @ValidEditor(entity = Todo.class) @PathVariable(name = "todoId") UUID todoId,
+                               @PathVariable(name = "commentId") UUID commentId) {
+        commentService.deleteComment(commentId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{todoId}/comments/{commentId}")
+    public ResponseEntity<Void> editComment(@Valid @ValidEditor(entity = Todo.class) @PathVariable(name = "todoId") UUID todoId,
+                               @PathVariable(name = "commentId") UUID commentId,
+                               @RequestBody CreateCommentRequest request) {
+        commentService.editComment(commentId, request.getText());
+        return ResponseEntity.ok().build();
     }
 
 

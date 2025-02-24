@@ -12,6 +12,7 @@ import java.util.UUID;
 public class CommentDto implements Serializable {
 
     private UUID id;
+    private boolean owner;
     private UUID parentId;
     private String userName;
     private String content;

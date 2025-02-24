@@ -27,7 +27,26 @@ public class CommentService {
     }
 
     public List<Comment> getComments(UUID parentId) {
-        // FIXME: user ownership validation
         return commentRepository.findByParentId(parentId);
+    }
+
+    @Transactional
+    public void editComment(UUID commentId, String content) {
+        Comment comment = commentRepository.findByIdOrThrow(commentId);
+        if (comment.getUserName().equals(Utils.getUserFromSecurityContext())) {
+            comment.setContent(content);
+        } else { //TODO: replace to specific exception
+            throw new RuntimeException("User is not authorized to edit comment"  + commentId);
+        }
+    }
+
+    @Transactional
+    public void deleteComment(UUID commentId) {
+        Comment comment = commentRepository.findByIdOrThrow(commentId);
+        if (comment.getUserName().equals(Utils.getUserFromSecurityContext())) {
+            commentRepository.deleteById(commentId);
+        } else { //TODO: replace to specific exception
+            throw new RuntimeException("User is not authorized to delete comment: " + commentId);
+        }
     }
 }
