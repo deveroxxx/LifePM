@@ -16,6 +16,7 @@ import bakos.life_pm.service.CommentService;
 import bakos.life_pm.service.FileAttachmentService;
 import bakos.life_pm.service.TodoService;
 import bakos.life_pm.validators.ValidEditor;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -91,13 +92,13 @@ public class TodoController {
     }
 
     @GetMapping("/{todoId}/images")
-    public List<FileInfoResponse> getImages(@Valid @ValidEditor(entity = Todo.class) @PathVariable(name = "todoId") UUID todoId) {
+    public List<FileInfoResponse> getImages(@Valid @ValidEditor(entity = Todo.class, requireEditor = false) @PathVariable(name = "todoId") UUID todoId) {
         return fileAttachmentService.getFileAttachmentByParentId(todoId)
                 .stream().map(FileAttachmentMapper::toTodoImageInfo).toList();
     }
 
     @GetMapping("/{todoId}/images/{imageId}/{filename}")
-    public ResponseEntity<Resource> getImage(@Valid @ValidEditor(entity = Todo.class) @PathVariable(name = "todoId") UUID todoId,
+    public ResponseEntity<Resource> getImage(@Valid @ValidEditor(entity = Todo.class, requireEditor = false) @PathVariable(name = "todoId") UUID todoId,
                                              @PathVariable(name = "imageId") UUID imageId,
                                              @PathVariable(name = "filename") String filename) {
         //TODO: validate todoId and imageId relation and maybe the filename
@@ -127,10 +128,11 @@ public class TodoController {
     }
 
     @GetMapping("/{todoId}/comments")
-    public List<CommentDto> getComments(@Valid @ValidEditor(entity = Todo.class) @PathVariable(name = "todoId") UUID todoId) {
+    public List<CommentDto> getComments(@Valid @ValidEditor(entity = Todo.class, requireEditor = false) @PathVariable(name = "todoId") UUID todoId) {
         return commentService.getComments(todoId).stream().map(CommentMapper.INSTANCE::toDto).toList();
     }
 
+    @Operation(summary = "Unimplemented!!!!")
     @PostMapping("/{todoId}/comments/{commentId}")
     public TodoDto editComment(@Valid @ValidEditor(entity = Todo.class) @PathVariable(name = "todoId") UUID todoId) {
         throw new UnsupportedOperationException();

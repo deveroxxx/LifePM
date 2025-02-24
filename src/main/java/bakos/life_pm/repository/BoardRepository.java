@@ -23,4 +23,8 @@ public interface BoardRepository extends ListCrudRepository<Board, UUID> {
                 orElseThrow(() -> new EntityNotFoundException("Board not found with id:" + id));
     }
 
+    default Board findByIdOrThrow(UUID id) {
+        return findById(id).orElseThrow(() -> new EntityNotFoundException("Board not found with id:" + id));
+    }
+
 }

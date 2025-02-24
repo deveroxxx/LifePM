@@ -14,6 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidEditor {
     Class<? extends CustomerRelated> entity();
+    boolean requireEditor() default true;
     String message() default "Unauthorized modification attempt.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

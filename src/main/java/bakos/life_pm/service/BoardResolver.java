@@ -9,31 +9,28 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class UserNameResolver {
+public class BoardResolver {
 
     private final TodoRepository todoRepository;
 
     private final EntityManager entityManager;
 
 
-    public UserNameResolver(TodoRepository todoRepo, EntityManager entityManager) {
+    public BoardResolver(TodoRepository todoRepo, EntityManager entityManager) {
         this.todoRepository = todoRepo;
         this.entityManager = entityManager;
     }
 
     @Transactional
-    public String getUserName(UUID id, Class<? extends CustomerRelated> entityClass){
+    public Board getBoard(UUID id, Class<? extends CustomerRelated> entityClass){
         if (entityClass == Todo.class) {
-            return todoRepository.findUserNameByTodoId(id);
+            return entityManager.find(BoardColumn.class, id).getBoard();
         }
         if (entityClass == BoardColumn.class) {
-            return entityManager.find(BoardColumn.class, id).getBoard().getUserName();
+            return entityManager.find(BoardColumn.class, id).getBoard();
         }
         if (entityClass == Board.class) {
-            return entityManager.find(Board.class, id).getUserName();
-        }
-        if (entityClass == Comment.class) {
-            return entityManager.find(Comment.class, id).getUserName();
+            return entityManager.find(Board.class, id);
         }
         throw new AssertionError("Unsupported entity class: " + entityClass);
     }

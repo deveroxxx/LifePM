@@ -35,7 +35,7 @@ public class BoardColumnController {
     }
 
     @GetMapping("/{columnId}")
-    public BoardColumnDto getColumn(@Valid @ValidEditor(entity = BoardColumn.class) @PathVariable(name = "columnId") UUID id) {
+    public BoardColumnDto getColumn(@Valid @ValidEditor(entity = BoardColumn.class, requireEditor = false) @PathVariable(name = "columnId") UUID id) {
         return BoardColumnMapper.INSTANCE.toDto(boardColumnService.getColumn(id));
     }
 

@@ -35,4 +35,8 @@ public class Board extends WithUserNameAndWithTs {
 
     @Column(nullable = false)
     private Integer position;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BoardPermission> permissions = new ArrayList<>();
+
 }
