@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessLogicRtException.class)
     public ResponseEntity<ErrorResponse> handleBusinessLogicRtExceptions(BusinessLogicRtException ex, WebRequest request) {
-        log.error("Exception occurred: {}, Request Details: {}", ex.getMessage(), request.getDescription(false), ex);
+        log.warn("Exception occurred: {}, Request Details: {}", ex.getMessage(), request.getDescription(false), ex);
         ErrorResponse errorResponse = new ErrorResponse(null, ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }

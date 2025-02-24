@@ -2,6 +2,7 @@ package bakos.life_pm.controller;
 
 import bakos.life_pm.dto.request.BoardPermissionRequest;
 import bakos.life_pm.dto.request.CreateBoardRequest;
+import bakos.life_pm.dto.request.UpdateArchivedRequest;
 import bakos.life_pm.dto.response.BoardDto;
 import bakos.life_pm.dto.response.BoardNavBarDto;
 import bakos.life_pm.dto.response.BoardUserResponse;
@@ -55,6 +56,13 @@ public class BoardController {
     @DeleteMapping("/{boardId}")
     public ResponseEntity<Void> deleteBoard(@Valid @ValidEditor(entity = Board.class) @PathVariable(name = "boardId") UUID id) {
         boardService.deleteBoard(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{boardId}/archive")
+    public ResponseEntity<Void> setArchived(@Valid @ValidEditor(entity = Board.class) @PathVariable(name = "boardId") UUID id,
+                                            @RequestBody UpdateArchivedRequest request) {
+        boardService.setArchived(id, request.isArchived());
         return ResponseEntity.ok().build();
     }
 

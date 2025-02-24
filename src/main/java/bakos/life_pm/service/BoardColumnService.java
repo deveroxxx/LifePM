@@ -1,6 +1,7 @@
 package bakos.life_pm.service;
 
 import bakos.life_pm.entity.BoardColumn;
+import bakos.life_pm.exception.BusinessLogicRtException;
 import bakos.life_pm.exception.PositionOverflowException;
 import bakos.life_pm.repository.BoardColumnRepository;
 import bakos.life_pm.repository.BoardRepository;
@@ -63,6 +64,15 @@ public class BoardColumnService {
 
     @Transactional
     public void deleteColumn(UUID id) {
-        columnRepo.deleteById(id);
+        if (columnRepo.findByIdOrThrow(id).isArchived()) {
+            columnRepo.deleteById(id);
+        } else {
+            throw new BusinessLogicRtException("Only archived columns can be deleted.");
+        }
+    }
+
+    @Transactional
+    public void setArchived(UUID id, boolean archived) {
+        columnRepo.findByIdOrThrow(id).setArchived(archived);
     }
 }

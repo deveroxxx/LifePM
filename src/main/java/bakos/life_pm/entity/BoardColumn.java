@@ -27,4 +27,7 @@ public class BoardColumn extends TimestampedEntity implements CustomerRelated {
 
     @Column(nullable = false)
     private Integer position;
+
+    @Column(nullable = false)
+    private boolean archived = false;
 }

@@ -5,6 +5,7 @@ import bakos.life_pm.entity.BoardColumn;
 import bakos.life_pm.entity.Todo;
 import bakos.life_pm.enums.Priority;
 import bakos.life_pm.enums.TodoType;
+import bakos.life_pm.exception.BusinessLogicRtException;
 import bakos.life_pm.exception.PositionOverflowException;
 import bakos.life_pm.repository.BoardColumnRepository;
 import bakos.life_pm.repository.TodoRepository;
@@ -43,6 +44,7 @@ public class TodoService {
     }
 
 
+    @Transactional
     public Todo createTodo(String title, UUID columnId) {
         Todo todo = new Todo();
         todo.setTitle(title);
@@ -54,8 +56,18 @@ public class TodoService {
         return todoRepo.save(todo);
     }
 
+    @Transactional
     public void deleteTodo(UUID id) {
-        todoRepo.deleteById(id);
+        if (getTodo(id).isArchived()) {
+            todoRepo.deleteById(id);
+        } else {
+            throw new BusinessLogicRtException("Only archived todos can be deleted.");
+        }
+    }
+
+    @Transactional
+    public void setArchived(UUID id, boolean archived) {
+        this.getTodo(id).setArchived(archived);
     }
 
     public Todo getTodo(UUID id) {

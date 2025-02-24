@@ -5,6 +5,7 @@ import bakos.life_pm.dto.response.BoardNavBarDto;
 import bakos.life_pm.entity.Board;
 import bakos.life_pm.entity.BoardPermission;
 import bakos.life_pm.enums.BoardPermissionEnum;
+import bakos.life_pm.exception.BusinessLogicRtException;
 import bakos.life_pm.repository.BoardRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,16 @@ public class BoardService {
 
     @Transactional
     public void deleteBoard(UUID id) {
-        getBoard(id);
-        boardRepo.deleteById(id);
+        if (boardRepo.findByIdOrThrow(id).isArchived()) {
+            boardRepo.deleteById(id);
+        } else {
+            throw new BusinessLogicRtException("Only archived boards can be deleted.");
+        }
+    }
+
+    @Transactional
+    public void setArchived(UUID id, boolean archived) {
+        boardRepo.findByIdOrThrow(id).setArchived(archived);
     }
 
     public Board getBoard(UUID id) {

@@ -1,6 +1,7 @@
 package bakos.life_pm.controller;
 
 import bakos.life_pm.dto.request.CreateBoardColumnRequest;
+import bakos.life_pm.dto.request.UpdateArchivedRequest;
 import bakos.life_pm.dto.request.UpdateColumnOrderRequest;
 import bakos.life_pm.dto.response.BoardColumnDto;
 import bakos.life_pm.entity.BoardColumn;
@@ -47,6 +48,13 @@ public class BoardColumnController {
     @DeleteMapping("/{columnId}")
     public ResponseEntity<Void> deleteColumn(@Valid @ValidEditor(entity = BoardColumn.class) @PathVariable(name = "columnId") UUID id) {
         boardColumnService.deleteColumn(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{columnId}/archive")
+    public ResponseEntity<Void> setArchived(@Valid @ValidEditor(entity = BoardColumn.class) @PathVariable(name = "columnId") UUID id,
+                                            @RequestBody UpdateArchivedRequest request) {
+        boardColumnService.setArchived(id, request.isArchived());
         return ResponseEntity.ok().build();
     }
 

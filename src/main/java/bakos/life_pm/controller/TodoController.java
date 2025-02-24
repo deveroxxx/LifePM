@@ -1,9 +1,6 @@
 package bakos.life_pm.controller;
 
-import bakos.life_pm.dto.request.CreateCommentRequest;
-import bakos.life_pm.dto.request.CreateTodoRequest;
-import bakos.life_pm.dto.request.PatchTodoRequest;
-import bakos.life_pm.dto.request.UpdateTodoOrderRequest;
+import bakos.life_pm.dto.request.*;
 import bakos.life_pm.dto.response.CommentDto;
 import bakos.life_pm.dto.response.FileInfoResponse;
 import bakos.life_pm.dto.response.TodoDto;
@@ -69,6 +66,13 @@ public class TodoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTodo(@Valid @ValidEditor(entity = Todo.class) @PathVariable(name = "id") UUID id) {
         todoService.deleteTodo(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/archive")
+    public ResponseEntity<Void> setArchived(@Valid @ValidEditor(entity = Todo.class) @PathVariable(name = "id") UUID id,
+                                            @RequestBody UpdateArchivedRequest request) {
+        todoService.setArchived(id, request.isArchived());
         return ResponseEntity.ok().build();
     }
 
