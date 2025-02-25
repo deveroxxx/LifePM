@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  postgres:
+    volumes:
+      - "C:/Important/Programming/docker/volumes/todo_postgres:/var/lib/postgresql/data"
+
+  minio:
+    volumes:
+      - "C:/Important/Programming/mini_io:/data"
+
+  app:
+    build:
+      dockerfile: Dockerfile.local

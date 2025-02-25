@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  postgres:
+    platform: linux/arm64
+    volumes:
+      - "./volumes/todo_postgres:/var/lib/postgresql/data"
+
+  minio:
+    platform: linux/arm64
+    volumes:
+      - "./volumes/minio:/data"
+
+  app:
+    platform: linux/arm64
+    build:
+      dockerfile: Dockerfile.pi
