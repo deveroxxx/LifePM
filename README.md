@@ -15,7 +15,6 @@ This is a personal project inspired by Trello, Jira, and other Todo applications
     - Cucumber (Planned for main coverage and business logic testing)
     - Other available solutions for "sandboxing":
         - H2 in-memory integration tests
-        - PostgreSQL Docker
         - Real database connection tests
         - Controller tests
 - **CI/CD:**
