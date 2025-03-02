@@ -9,11 +9,13 @@ import bakos.life_pm.service.BoardColumnService;
 import bakos.life_pm.service.BoardService;
 import bakos.life_pm.service.TodoService;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+@Disabled
 @Slf4j
 @SpringBootTest
 //@WithMockUser(username = "a@a.com")

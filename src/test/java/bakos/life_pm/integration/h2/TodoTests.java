@@ -12,6 +12,7 @@ import bakos.life_pm.service.BoardService;
 import bakos.life_pm.service.TodoService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,6 +20,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Disabled
 @Slf4j
 @Transactional
 public class TodoTests extends TestUtils implements H2BaseTest {

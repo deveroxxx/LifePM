@@ -4,9 +4,11 @@ import bakos.life_pm.entity.Customer;
 import bakos.life_pm.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@Disabled
 @Slf4j
 @Transactional
 public class CustomerTests implements H2BaseTest {

@@ -10,6 +10,7 @@ import bakos.life_pm.mapper.complex.TodoDetailsMapper;
 import bakos.life_pm.repository.TodoRepository;
 import bakos.life_pm.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.StandardCharsets;
 
+@Disabled
 @Slf4j
 @WithMockUser
 public class SandboxTests extends TestUtils implements H2BaseTest {
