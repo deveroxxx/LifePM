@@ -9,14 +9,15 @@ import bakos.life_pm.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.Cookie;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -24,11 +25,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static bakos.life_pm.auth.JwtAuthFilter.AUTH_COOKIE_NAME;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class OwnershipTests {
+@Transactional
+class OwnershipTests {
 
     private static final String USER_A = "user_a";
     private static final String USER_B = "user_b";
@@ -39,18 +41,15 @@ public class OwnershipTests {
     @Autowired
     private UserService userService;
 
+    // TODO: since we starting everything we could just use rest template
     @Autowired
     private MockMvc mvc;
 
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        try {
-            userService.createUser(USER_A, USER_PASSWORD, "test@test.com");
-            userService.createUser(USER_B, USER_PASSWORD, "test2@test.com");
-        } catch (Exception e) {
-            // TODO: should use BeforeAll but that fails to persist the user for the tests.
-        }
+        userService.createUser(USER_A, USER_PASSWORD, "test@test.com");
+        userService.createUser(USER_B, USER_PASSWORD, "test2@test.com");
     }
 
 
@@ -70,7 +69,7 @@ public class OwnershipTests {
 
 
     @Test
-    public void addBoardColumns() throws Exception {
+    void addBoardColumns() throws Exception {
         // USER A Creates a board and ads a column
         Cookie cookie_user_a = preformLogin(USER_A, USER_PASSWORD)
                 .andExpect(status().isOk()).andReturn().getResponse().getCookie(AUTH_COOKIE_NAME);
