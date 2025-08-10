@@ -1,6 +1,7 @@
 package bakos.life_pm.service.strategy;
 
 import bakos.life_pm.entity.FileAttachment;
+import bakos.life_pm.enums.StorageType;
 import bakos.life_pm.repository.FileAttachmentRepository;
 import bakos.life_pm.service.Utils;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,10 +16,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-import static bakos.life_pm.enums.StorageStrategy.FILE;
+import static bakos.life_pm.enums.StorageType.FILE;
 
+//TODO: make it conditional on properties so we fail early.
 @Component
-public class FileAttachmentFileSystemStrategy implements StorageStrategy {
+public non-sealed class FileAttachmentFileSystemStrategy implements StorageStrategy {
 
     private final FileAttachmentRepository fileAttachmentRepository;
 
@@ -56,6 +58,11 @@ public class FileAttachmentFileSystemStrategy implements StorageStrategy {
     @Override
     public InputStream downloadFile(FileAttachment file) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public StorageType type() {
+        return FILE;
     }
 
     public Path getUserFilePath() {

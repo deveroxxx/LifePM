@@ -5,6 +5,7 @@ import bakos.life_pm.TestUtils;
 import bakos.life_pm.dto.response.TodoDetailsDto;
 import bakos.life_pm.entity.Board;
 import bakos.life_pm.entity.BoardColumn;
+import bakos.life_pm.entity.FileAttachment;
 import bakos.life_pm.entity.Todo;
 import bakos.life_pm.mapper.complex.TodoDetailsMapper;
 import bakos.life_pm.repository.TodoRepository;
@@ -18,6 +19,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 @Disabled
@@ -82,8 +85,17 @@ public class SandboxTests extends TestUtils implements H2BaseTest {
                 "Hello, world!".getBytes(StandardCharsets.UTF_8) // File content
         );
 
-        fileAttachmentService.saveFile(file, todo.getId());
+        FileAttachment saved = fileAttachmentService.saveFile(file, todo.getId());
 
+        byte[] roundtrip;
+        try (InputStream in = fileAttachmentService.downloadFile(saved.getId())) {
+            roundtrip = in.readAllBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        String downloadedText = new String(roundtrip, StandardCharsets.UTF_8);
+        System.out.println("yolo");
     }
 
 

@@ -1,6 +1,7 @@
 package bakos.life_pm.service.strategy;
 
 import bakos.life_pm.entity.FileAttachment;
+import bakos.life_pm.enums.StorageType;
 import bakos.life_pm.repository.FileAttachmentRepository;
 import bakos.life_pm.service.Utils;
 import io.minio.GetPresignedObjectUrlArgs;
@@ -16,11 +17,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.UUID;
 
-import static bakos.life_pm.enums.StorageStrategy.MINIO;
+import static bakos.life_pm.enums.StorageType.MINIO;
 import static org.springframework.util.ResourceUtils.toURL;
 
+//TODO: make it conditional on properties so we fail early.
 @Component
-public class FileAttachmentMinioStrategy implements StorageStrategy {
+public non-sealed class FileAttachmentMinioStrategy implements StorageStrategy {
 
     private final MinioClient minioClient;
     private final FileAttachmentRepository fileAttachmentRepository;
@@ -66,7 +68,7 @@ public class FileAttachmentMinioStrategy implements StorageStrategy {
                             .bucket(attachmentBucket)
                             .object(file.getFilePath())
                             .method(Method.GET)
-                            .expiry(60) // 1-minute expiry
+                            .expiry(60) // 1-minute expiry //TODO: from config
                             .build()
             );
             URL url = toURL(preSignedUrl);
@@ -76,6 +78,11 @@ public class FileAttachmentMinioStrategy implements StorageStrategy {
         } catch (Exception e) {
             throw new RuntimeException("Could not download file", e);
         }
+    }
+
+    @Override
+    public StorageType type() {
+        return MINIO;
     }
 
 }

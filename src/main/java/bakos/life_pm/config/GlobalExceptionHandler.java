@@ -2,6 +2,7 @@ package bakos.life_pm.config;
 
 import bakos.life_pm.dto.response.ErrorResponse;
 import bakos.life_pm.exception.BusinessLogicRtException;
+import bakos.life_pm.exception.SystemConfigurationException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSourceResolvable;
@@ -21,6 +22,7 @@ import java.util.Map;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    //TODO: check error codes and sync with FE logic.
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
@@ -89,6 +91,16 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(null, "Unsupported operation (Ask BE to implement this method)");
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(SystemConfigurationException.class)
+    public ResponseEntity<ErrorResponse> handleSystemConfigurationException(UnsupportedOperationException ex, WebRequest request) {
+        log.warn("Exception occurred: {}, Request Details: {}", ex.getMessage(), request.getDescription(false));
+        ErrorResponse errorResponse = new ErrorResponse(null, "Contact the administrator if the error persist.");
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+
+
 
 
 

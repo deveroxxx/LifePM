@@ -1,5 +1,5 @@
 package bakos.life_pm.enums;
 
-public enum StorageStrategy {
+public enum StorageType {
     DATABASE, FILE, S3, MINIO
 }

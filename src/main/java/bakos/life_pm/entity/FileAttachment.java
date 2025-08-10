@@ -1,6 +1,6 @@
 package bakos.life_pm.entity;
 
-import bakos.life_pm.enums.StorageStrategy;
+import bakos.life_pm.enums.StorageType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,6 +34,6 @@ public class FileAttachment extends TimestampedEntity implements CustomerRelated
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private StorageStrategy storageStrategy;
+    private StorageType storageStrategy;
 
 }
