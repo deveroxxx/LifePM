@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @MappedSuperclass
-public class WithUserName extends BaseEntity implements CustomerRelated {
+public class WithUserName extends BaseEntity {
 
     @Column(name = "user_name")
     private String userName;

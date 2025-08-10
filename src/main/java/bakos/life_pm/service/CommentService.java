@@ -30,10 +30,11 @@ public class CommentService {
         return commentRepository.findByParentId(parentId);
     }
 
+
     @Transactional
     public void editComment(UUID commentId, String content) {
         Comment comment = commentRepository.findByIdOrThrow(commentId);
-        if (comment.getUserName().equals(Utils.getUserFromSecurityContext())) {
+        if (comment.getUserName().equals(Utils.getUserFromSecurityContext())) { //TODO: maybe i should move this logic next to the other validations
             comment.setContent(content);
         } else { //TODO: replace to specific exception
             throw new RuntimeException("User is not authorized to edit comment"  + commentId);
@@ -43,7 +44,7 @@ public class CommentService {
     @Transactional
     public void deleteComment(UUID commentId) {
         Comment comment = commentRepository.findByIdOrThrow(commentId);
-        if (comment.getUserName().equals(Utils.getUserFromSecurityContext())) {
+        if (comment.getUserName().equals(Utils.getUserFromSecurityContext())) { //TODO: maybe i should move this logic next to the other validations
             commentRepository.deleteById(commentId);
         } else { //TODO: replace to specific exception
             throw new RuntimeException("User is not authorized to delete comment: " + commentId);

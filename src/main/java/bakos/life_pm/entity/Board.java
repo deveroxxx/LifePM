@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @Table(name = "boards")
 @NoArgsConstructor
-public class Board extends WithUserNameAndWithTs {
+public class Board extends WithUserNameAndWithTs implements CustomerRelated {
 
     public Board(String name) {
         this.name = name;

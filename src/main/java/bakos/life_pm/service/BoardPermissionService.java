@@ -2,6 +2,7 @@ package bakos.life_pm.service;
 
 import bakos.life_pm.entity.*;
 import bakos.life_pm.enums.BoardPermissionEnum;
+import bakos.life_pm.exception.BusinessLogicRtException;
 import bakos.life_pm.repository.BoardPermissionRepository;
 import bakos.life_pm.repository.BoardRepository;
 import bakos.life_pm.repository.UserRepository;
@@ -27,7 +28,7 @@ public class BoardPermissionService {
 
     @Transactional
     public BoardPermission addOrUpdatePermission(UUID boardId, String userName, BoardPermissionEnum permission) {
-        userRepository.findByUserNameOrThrow(userName); // check if exists
+        if (userRepository.findByUserName(userName).isEmpty()) throw new BusinessLogicRtException("User does not exist!");
         Optional<BoardPermission> bp = boardPermissionRepository.findByBoardIdAndUserName(boardId, userName);
         if (bp.isPresent()) {
             bp.get().setPermission(permission);
@@ -52,6 +53,10 @@ public class BoardPermissionService {
         permission.ifPresent(boardPermissionRepository::delete);
     }
 
+    // Tried to do this with sealed classes, but then I would have to make the entities final, which is not good for proxy and lazy stuff.
+    // Switch case also not working because of the ? wildcards.
+    // A different version would be @PreAuthorize("@perm.canEditColumn(#columnId)") but with currently how I handle the user auth
+    // on different fields I think it's cleaner this way. The above would be good for "ADMIN" and other "easy" checks.
     @Transactional
     public Optional<BoardPermissionEnum> getBoardPermission(UUID id, Class<? extends CustomerRelated> entityClass, String userName){
         if (entityClass == Todo.class) {

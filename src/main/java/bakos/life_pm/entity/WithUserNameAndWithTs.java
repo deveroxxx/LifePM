@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class WithUserNameAndWithTs extends BaseEntity implements CustomerRelated {
+public class WithUserNameAndWithTs extends BaseEntity {
 
     @Column(name = "user_name")
     private String userName;

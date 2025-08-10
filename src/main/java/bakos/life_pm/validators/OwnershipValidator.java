@@ -6,12 +6,10 @@ import bakos.life_pm.service.BoardPermissionService;
 import bakos.life_pm.service.Utils;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
 public class OwnershipValidator implements ConstraintValidator<ValidEditor, UUID> {
 
     private final BoardPermissionService boardPermissionService;

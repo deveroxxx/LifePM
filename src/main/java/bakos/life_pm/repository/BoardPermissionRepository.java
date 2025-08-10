@@ -18,6 +18,7 @@ public interface BoardPermissionRepository extends JpaRepository<BoardPermission
     List<BoardPermission> findByUserName(String userName);
     List<BoardPermission> findByBoard(Board board);
 
+    // TODO: without cache configs these are not working, after i need the proper eviction policy.
     @QueryHints(@QueryHint(name = "org.hibernate.cacheable", value = "true"))
     @Query("SELECT p.permission FROM BoardPermission p " +
             "JOIN p.board b " +
