@@ -92,7 +92,7 @@ public class CustomerAuthTests {
 
         mvc.perform(MockMvcRequestBuilders
                 .get("/api/boards")
-                .header("Authorization", "Bearer " + loginResponse.getToken()))
+                .header("Authorization", "Bearer " + loginResponse.token()))
         .andExpect(status().isOk());
     }
 }

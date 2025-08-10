@@ -8,10 +8,7 @@ import lombok.experimental.UtilityClass;
 public class BoardPermissionMapper {
 
     public static BoardUserResponse toBoardUser(BoardPermission permission) {
-        BoardUserResponse response = new BoardUserResponse();
-        response.setPermission(permission.getPermission());
-        response.setUserName(permission.getUserName());
-        return response;
+        return new BoardUserResponse(permission.getUserName(), permission.getPermission());
     }
 
 }

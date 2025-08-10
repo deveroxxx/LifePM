@@ -52,14 +52,14 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<Customer> register(@RequestBody RegisterUserRequest request) {
-        Customer registeredUser = userService.createUser(request.getUsername(), request.getPassword(), request.getEmail());
+        Customer registeredUser = userService.createUser(request.username(), request.password(), request.email());
         return ResponseEntity.ok(registeredUser);
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody AuthRequest request, HttpServletResponse response) {
         try {
-            Customer authenticatedUser = authService.login(request.getUsername(), request.getPassword());
+            Customer authenticatedUser = authService.login(request.username(), request.password());
 
             String accessToken = jwtService.generateToken(authenticatedUser.getUserName());
             String refreshToken = UUID.randomUUID().toString();

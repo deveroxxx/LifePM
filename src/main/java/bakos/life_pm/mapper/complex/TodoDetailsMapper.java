@@ -8,7 +8,6 @@ import bakos.life_pm.entity.Todo;
 import bakos.life_pm.mapper.CommentMapper;
 import bakos.life_pm.mapper.TodoMapper;
 import bakos.life_pm.repository.CommentRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -28,10 +27,7 @@ public class TodoDetailsMapper {
         if (baseDto == null) {
             return null;
         }
-        TodoDetailsDto detailsDto = new TodoDetailsDto();
-        BeanUtils.copyProperties(baseDto, detailsDto);
-        detailsDto.setComments(mapComments(todo));
-        return detailsDto;
+        return new TodoDetailsDto(baseDto, mapComments(todo));
     }
 
     List<CommentDto> mapComments(Todo todo) {

@@ -7,18 +7,12 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class FileAttachmentMapper {
 
-    public static FileInfoResponse toFileInfo(FileAttachment fileAttachment) {
-        FileInfoResponse response = new FileInfoResponse();
-        response.setId(fileAttachment.getId());
-        response.setName(fileAttachment.getFileName());
-        response.setType(fileAttachment.getFileType());
-        return response;
-    }
-
     public static FileInfoResponse toTodoImageInfo(FileAttachment fa) {
-        FileInfoResponse response = toFileInfo(fa);
-        response.setUrl("/api/todos/" + fa.getParentId() + "/images/" + fa.getId() + "/" + fa.getFileName());
-        return response;
+        return new FileInfoResponse(
+                fa.getId(),
+                fa.getFileName(),
+                fa.getFileType(),
+                "/api/todos/" + fa.getParentId() + "/images/" + fa.getId() + "/" + fa.getFileName());
     }
 
 }

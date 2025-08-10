@@ -27,7 +27,7 @@ public class BoardColumnController {
 
     @PostMapping()
     public BoardColumnDto createColumn(@Valid @RequestBody CreateBoardColumnRequest request) {
-        return BoardColumnMapper.INSTANCE.toDto(boardColumnService.createColumn(request.getName(), request.getBoardId()));
+        return BoardColumnMapper.INSTANCE.toDto(boardColumnService.createColumn(request.name(), request.boardId()));
     }
 
     @GetMapping()
@@ -54,14 +54,14 @@ public class BoardColumnController {
     @PutMapping("/{columnId}/archive")
     public ResponseEntity<Void> setArchived(@Valid @ValidEditor(entity = BoardColumn.class) @PathVariable(name = "columnId") UUID id,
                                             @RequestBody UpdateArchivedRequest request) {
-        boardColumnService.setArchived(id, request.isArchived());
+        boardColumnService.setArchived(id, request.archived());
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{columnId}/reorder")
     public ResponseEntity<Void> updatePosition(@Valid @ValidEditor(entity = BoardColumn.class) @PathVariable(name = "columnId") UUID id,
                                                @Valid @RequestBody UpdateColumnOrderRequest request) {
-        boardColumnService.updateColumnPosition(id, request.getPreviousItemId(), request.getNextItemId());
+        boardColumnService.updateColumnPosition(id, request.previousItemId(), request.nextItemId());
         return ResponseEntity.ok().build();
     }
 }

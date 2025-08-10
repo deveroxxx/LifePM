@@ -83,7 +83,7 @@ class OwnershipTests {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(), BoardDto.class);
 
-        request = new ObjectMapper().writeValueAsString(new CreateBoardColumnRequest("BoardCol", boardDto.getId()));
+        request = new ObjectMapper().writeValueAsString(new CreateBoardColumnRequest("BoardCol", boardDto.id()));
         BoardColumnDto columnDto = mapper.readValue(mvc.perform(MockMvcRequestBuilders
                         .post("/api/board-columns")
                         .content(request)

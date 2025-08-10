@@ -35,11 +35,11 @@ public class TodoService {
     @Transactional
     public void patchTodo(UUID todoId, PatchTodoRequest request) {
         Todo todo = getTodo(todoId);
-        if (request.getTitle() != null && !request.getTitle().isBlank()) {
-            todo.setTitle(request.getTitle());
+        if (request.title() != null && !request.title().isBlank()) {
+            todo.setTitle(request.title());
         }
-        if (request.getDescription() != null) {
-            todo.setDescription(request.getDescription().isBlank() ? null : request.getDescription());
+        if (request.description() != null) {
+            todo.setDescription(request.description().isBlank() ? null : request.description());
         }
     }
 

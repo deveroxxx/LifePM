@@ -11,12 +11,11 @@ import org.mapstruct.factory.Mappers;
 public interface CommentMapper extends BaseMapper<Comment, CommentDto>{
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 
-    @Mapping(target = "owner", ignore = true)
-    CommentDto toDtoWithoutOwner(Comment comment);
+    @Mapping(target = "owner", expression = "java(isOwner(comment))")
+    CommentDto toDto(Comment comment);
 
-    default CommentDto toDto(Comment comment) {
-        CommentDto dto = toDtoWithoutOwner(comment);
-        dto.setOwner(Utils.getUserFromSecurityContext().equals(comment.getUserName()));
-        return dto;
+    default boolean isOwner(Comment comment) {
+        var current = Utils.getUserFromSecurityContext();
+        return current != null && current.equals(comment.getUserName());
     }
 }

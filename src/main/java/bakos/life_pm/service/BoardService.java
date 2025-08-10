@@ -68,10 +68,10 @@ public class BoardService {
         List<BoardPermission> permissions = boardPermissionService.findByUserName(Utils.getUserFromSecurityContext());
         List<BoardNavBarDto> result = new ArrayList<>();
         for (BoardPermission permission : permissions) {
-            BoardNavBarDto boardNavBarDto = new BoardNavBarDto();
-            boardNavBarDto.setId(permission.getBoard().getId());
-            boardNavBarDto.setName(permission.getBoard().getName());
-            boardNavBarDto.setPermission(permission.getPermission());
+            BoardNavBarDto boardNavBarDto = new BoardNavBarDto(
+                    permission.getBoard().getId(),
+                    permission.getBoard().getName(),
+                    permission.getPermission());
             result.add(boardNavBarDto);
         }
         return result;

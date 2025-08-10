@@ -43,7 +43,7 @@ public class TodoController {
 
     @PostMapping()
     public TodoDto createTodo(@Valid @RequestBody CreateTodoRequest request) {
-        return TodoMapper.INSTANCE.toDto(todoService.createTodo(request.getName(), request.getColumnId()));
+        return TodoMapper.INSTANCE.toDto(todoService.createTodo(request.name(), request.columnId()));
     }
 
     @GetMapping()
@@ -72,7 +72,7 @@ public class TodoController {
     @PutMapping("/{id}/archive")
     public ResponseEntity<Void> setArchived(@Valid @ValidEditor(entity = Todo.class) @PathVariable(name = "id") UUID id,
                                             @RequestBody UpdateArchivedRequest request) {
-        todoService.setArchived(id, request.isArchived());
+        todoService.setArchived(id, request.archived());
         return ResponseEntity.ok().build();
     }
 
@@ -81,9 +81,9 @@ public class TodoController {
                                                @Valid @RequestBody UpdateTodoOrderRequest request) {
         todoService.updateTodoPosition(
                 id,
-                request.getPreviousItemId(),
-                request.getNextItemId(),
-                request.getNewColumnId());
+                request.previousItemId(),
+                request.nextItemId(),
+                request.newColumnId());
         return ResponseEntity.ok().build();
     }
 
@@ -127,7 +127,7 @@ public class TodoController {
     @PostMapping("/{todoId}/comments")
     public CommentDto createComment(@Valid @ValidEditor(entity = Todo.class) @PathVariable(name = "todoId") UUID todoId,
                                     @RequestBody CreateCommentRequest request) {
-        return CommentMapper.INSTANCE.toDto(commentService.addComment(todoId, request.getText()));
+        return CommentMapper.INSTANCE.toDto(commentService.addComment(todoId, request.text()));
     }
 
     @GetMapping("/{todoId}/comments")
@@ -146,7 +146,7 @@ public class TodoController {
     public ResponseEntity<Void> editComment(@Valid @ValidEditor(entity = Todo.class) @PathVariable(name = "todoId") UUID todoId,
                                @PathVariable(name = "commentId") UUID commentId,
                                @RequestBody CreateCommentRequest request) {
-        commentService.editComment(commentId, request.getText());
+        commentService.editComment(commentId, request.text());
         return ResponseEntity.ok().build();
     }
 

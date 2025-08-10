@@ -1,14 +1,4 @@
 package bakos.life_pm.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-@Data
-@AllArgsConstructor
-public class RegisterUserRequest {
-
-    private String username;
-    private String password;
-    private String email;
-
+public record RegisterUserRequest(String username, String password, String email ) {
 }

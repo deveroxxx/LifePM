@@ -35,7 +35,7 @@ public class BoardController {
 
     @PostMapping()
     public BoardDto createBoard(@RequestBody CreateBoardRequest request) {
-        return BoardMapper.INSTANCE.toDto(boardService.createBoard(request.getName()));
+        return BoardMapper.INSTANCE.toDto(boardService.createBoard(request.name()));
     }
 
     @GetMapping()
@@ -62,7 +62,7 @@ public class BoardController {
     @PutMapping("/{boardId}/archive")
     public ResponseEntity<Void> setArchived(@Valid @ValidEditor(entity = Board.class) @PathVariable(name = "boardId") UUID id,
                                             @RequestBody UpdateArchivedRequest request) {
-        boardService.setArchived(id, request.isArchived());
+        boardService.setArchived(id, request.archived());
         return ResponseEntity.ok().build();
     }
 
@@ -75,7 +75,7 @@ public class BoardController {
     public BoardUserResponse addOrUpdate(@Valid @ValidEditor(entity = Board.class) @PathVariable(name = "boardId") UUID boardId,
                                 @PathVariable(name = "userName") String userName,
                                 @RequestBody BoardPermissionRequest request) {
-        return toBoardUser(boardPermissionService.addOrUpdatePermission(boardId, userName, request.getPermission()));
+        return toBoardUser(boardPermissionService.addOrUpdatePermission(boardId, userName, request.permission()));
     }
 
     @DeleteMapping("/{boardId}/users/{userName}")
